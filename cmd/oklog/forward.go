@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"math/rand"
 	"net"
 	"net/http"
@@ -21,9 +22,10 @@ import (
 func runForward(args []string) error {
 	flagset := flag.NewFlagSet("forward", flag.ExitOnError)
 	var (
-		debug    = flagset.Bool("debug", false, "debug logging")
-		apiAddr  = flagset.String("api", "", "listen address for forward API (and metrics)")
-		prefixes = stringslice{}
+		debug       = flagset.Bool("debug", false, "debug logging")
+		apiAddr     = flagset.String("api", "", "listen address for forward API (and metrics)")
+		prefixes    = stringslice{}
+		passthrough = flagset.Bool("passthrough", false, "pass stdin to stdout")
 	)
 	flagset.Var(&prefixes, "prefix", "prefix annotated on each log record (repeatable)")
 	flagset.Usage = usageFor(flagset, "oklog forward [flags] <ingester> [<ingester>...]")
@@ -123,11 +125,15 @@ func runForward(args []string) error {
 		urls[i], urls[j] = urls[j], urls[i]
 	})
 
+	r := io.Reader(os.Stdin)
+	if *passthrough {
+		r = io.TeeReader(r, os.Stdout)
+	}
 	// Build a scanner for the input, and the last record we scanned.
 	// These both outlive any individual connection to an ingester.
 	// TODO(pb): have flag for backpressure vs. drop
 	var (
-		s       = bufio.NewScanner(os.Stdin)
+		s       = bufio.NewScanner(r)
 		backoff = time.Duration(0)
 		recBuf  strings.Builder
 	)
