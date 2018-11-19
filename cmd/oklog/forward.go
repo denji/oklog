@@ -119,10 +119,9 @@ func runForward(args []string) error {
 
 	// Shuffle the order.
 	rand.Seed(time.Now().UnixNano())
-	for i := range urls {
-		j := rand.Intn(i + 1)
+	rand.Shuffle(len(urls), func(i, j int) {
 		urls[i], urls[j] = urls[j], urls[i]
-	}
+	})
 
 	// Build a scanner for the input, and the last record we scanned.
 	// These both outlive any individual connection to an ingester.
@@ -130,6 +129,7 @@ func runForward(args []string) error {
 	var (
 		s       = bufio.NewScanner(os.Stdin)
 		backoff = time.Duration(0)
+		recBuf  strings.Builder
 	)
 
 	// Enter the connect and forward loop. We do this forever.
@@ -198,8 +198,14 @@ func runForward(args []string) error {
 		ok := s.Scan()
 		for ok {
 			// We enter the loop wanting to write s.Text() to the conn.
-			record := fmt.Sprintf("%s%s\n", prefix, s.Text())
+			recBuf.Reset()
+			recBuf.WriteString(prefix)
+			recBuf.Write(s.Bytes())
+			recBuf.WriteByte('\n')
+			record := recBuf.String()
+
 			if n, err := fmt.Fprintf(conn, record); err != nil {
+				conn.Close()
 				disconnects.Inc()
 				level.Warn(logger).Log("disconnected_from", target.String(), "due_to", err)
 				break
