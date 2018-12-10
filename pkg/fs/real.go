@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oklog/oklog/pkg/flock"
+	"github.com/denji/oklog/pkg/flock"
 )
 
 const mkdirAllMode = 0755

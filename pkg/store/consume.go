@@ -13,8 +13,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/oklog/oklog/pkg/cluster"
-	"github.com/oklog/oklog/pkg/ingest"
+	"github.com/denji/oklog/pkg/cluster"
+	"github.com/denji/oklog/pkg/ingest"
 )
 
 // Consumer reads segments from the ingesters, and replicates merged segments to

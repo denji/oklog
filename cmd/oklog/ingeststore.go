@@ -15,13 +15,13 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/cors"
 
-	"github.com/oklog/oklog/pkg/cluster"
-	"github.com/oklog/oklog/pkg/fs"
-	"github.com/oklog/oklog/pkg/group"
-	"github.com/oklog/oklog/pkg/ingest"
-	"github.com/oklog/oklog/pkg/record"
-	"github.com/oklog/oklog/pkg/store"
-	"github.com/oklog/oklog/pkg/ui"
+	"github.com/denji/oklog/pkg/cluster"
+	"github.com/denji/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/group"
+	"github.com/denji/oklog/pkg/ingest"
+	"github.com/denji/oklog/pkg/record"
+	"github.com/denji/oklog/pkg/store"
+	"github.com/denji/oklog/pkg/ui"
 )
 
 func runIngestStore(args []string) error {

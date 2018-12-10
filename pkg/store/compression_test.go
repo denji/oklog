@@ -13,7 +13,7 @@ import (
 	"github.com/oklog/ulid"
 	"github.com/valyala/gozstd"
 
-	"github.com/oklog/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/fs"
 )
 
 type byteReader struct {

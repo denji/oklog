@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/oklog/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/fs"
 )
 
 func TestRecoverSegments(t *testing.T) {

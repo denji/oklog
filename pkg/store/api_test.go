@@ -14,8 +14,8 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/oklog/oklog/pkg/cluster"
-	"github.com/oklog/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/cluster"
+	"github.com/denji/oklog/pkg/fs"
 	"github.com/oklog/ulid"
 )
 

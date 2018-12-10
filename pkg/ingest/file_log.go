@@ -9,7 +9,7 @@ import (
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
 
-	"github.com/oklog/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/fs"
 )
 
 const (

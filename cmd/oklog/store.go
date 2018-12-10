@@ -16,11 +16,11 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/cors"
 
-	"github.com/oklog/oklog/pkg/cluster"
-	"github.com/oklog/oklog/pkg/fs"
-	"github.com/oklog/oklog/pkg/group"
-	"github.com/oklog/oklog/pkg/store"
-	"github.com/oklog/oklog/pkg/ui"
+	"github.com/denji/oklog/pkg/cluster"
+	"github.com/denji/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/group"
+	"github.com/denji/oklog/pkg/store"
+	"github.com/denji/oklog/pkg/ui"
 )
 
 const (

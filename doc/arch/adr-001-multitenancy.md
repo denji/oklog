@@ -24,11 +24,11 @@ in a useful direction.
 
 The initial set of issues include:
 
-- [Add first-class concept of topics](https://github.com/oklog/oklog/issues/113)
+- [Add first-class concept of topics](https://github.com/denji/oklog/issues/113)
 - Separate indexer layer for faster queries
-- [Move to length-delimited records](https://github.com/oklog/oklog/issues/112)
-- [Extend record identifier](https://github.com/oklog/oklog/issues/114)
-- [Long-term storage](https://github.com/oklog/oklog/issues/115)
+- [Move to length-delimited records](https://github.com/denji/oklog/issues/112)
+- [Extend record identifier](https://github.com/denji/oklog/issues/114)
+- [Long-term storage](https://github.com/denji/oklog/issues/115)
 
 Additional issues may be filed, and these issues may be refactored or dropped
 outright depending on the result of experimentation.

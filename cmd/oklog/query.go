@@ -13,7 +13,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/oklog/oklog/pkg/store"
+	"github.com/denji/oklog/pkg/store"
 	"github.com/oklog/ulid"
 )
 
