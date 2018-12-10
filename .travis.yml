@@ -4,7 +4,11 @@ go:
   - 1.x
   - tip
 env:
-  - GO111MODULE=on
+  global:
+    - GO111MODULE=on
+cache:
+  directories:
+    - $GOPATH/pkg/mod/cache
 install:
   - go build ./{cmd,pkg}/...
 script:
