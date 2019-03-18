@@ -41,6 +41,7 @@ require (
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
 	github.com/stretchr/testify v1.2.2 // indirect
 	github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926 // indirect
+	github.com/valyala/gozstd v1.2.1
 	golang.org/x/crypto v0.0.0-20181112202954-3d3f9f413869 // indirect
 	golang.org/x/sys v0.0.0-20181116161606-93218def8b18 // indirect
 	google.golang.org/appengine v1.3.0 // indirect

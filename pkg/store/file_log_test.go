@@ -102,11 +102,11 @@ func TestRecoverSegments(t *testing.T) {
 
 	files := map[string]bool{ // file: expected
 		"01ARYZ6S41TSV4RRFFQ69G5FAV-01ARYZ6S41TSV4RRFFZZZZZZZZ" + extFlushed: true,
-		"FLUSHED" + extFlushed:                                               true,
-		"READING" + extFlushed:                                               true,
-		"TRASHED" + extTrashed:                                               true,
-		"IGNORED.ignored":                                                    true,
-		lockFile:                                                             true,
+		"FLUSHED" + extFlushed: true,
+		"READING" + extFlushed: true,
+		"TRASHED" + extTrashed: true,
+		"IGNORED.ignored":      true,
+		lockFile:               true,
 	}
 	filesys.Walk("", func(path string, info os.FileInfo, err error) error {
 		if _, ok := files[path]; ok {

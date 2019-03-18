@@ -289,11 +289,11 @@ func runIngestStore(args []string) error {
 	// Create ingestlog.
 	var fsys fs.Filesystem
 	switch strings.ToLower(*filesystem) {
-	case "real":
+	case fsReal:
 		fsys = fs.NewRealFilesystem()
-	case "virtual":
+	case fsVirtual:
 		fsys = fs.NewVirtualFilesystem()
-	case "nop":
+	case fsNop:
 		fsys = fs.NewNopFilesystem()
 	default:
 		return errors.Errorf("invalid -filesystem %q", *filesystem)
@@ -352,7 +352,7 @@ func runIngestStore(args []string) error {
 	unlimitedClient := http.DefaultClient // no timeouts, be careful
 	timeoutClient := &http.Client{
 		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
+			Proxy:                 http.ProxyFromEnvironment,
 			ResponseHeaderTimeout: 5 * time.Second,
 			Dial: (&net.Dialer{
 				Timeout:   10 * time.Second,

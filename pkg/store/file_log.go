@@ -598,7 +598,7 @@ func (w fileWriteSegment) Size() int64 {
 type fileReadSegment struct {
 	fs fs.Filesystem
 	f  fs.File
-	cf  compressedReader
+	cf compressedReader
 }
 
 func newFileReadSegment(fs fs.Filesystem, path string) (fileReadSegment, error) {
@@ -711,7 +711,7 @@ type segmentInfo struct {
 func basename(path string) string {
 	base := filepath.Base(path)
 	ext1, ext2 := exts(path)
-	return base[:len(base)-len(ext1) - len(ext2)]
+	return base[:len(base)-len(ext1)-len(ext2)]
 }
 
 func modifyExtension(filename, newExt string) string {

@@ -6,4 +6,3 @@ import (
 )
 
 type Group = run.Group
-

@@ -579,14 +579,14 @@ func (log *mockLog) Stats() (LogStats, error) {
 
 func (log *mockLog) Close() error { return nil }
 
-type mockWriteSegment struct{
+type mockWriteSegment struct {
 	*bytes.Buffer
 	sz int64
 }
 
 func (mockWriteSegment) Close(ulid.ULID, ulid.ULID) error { return nil }
 func (mockWriteSegment) Delete() error                    { return nil }
-func (w *mockWriteSegment) Size() int64                      { return w.sz }
+func (w *mockWriteSegment) Size() int64                   { return w.sz }
 func (w *mockWriteSegment) Write(p []byte) (int, error) {
 	n, err := w.Buffer.Write(p)
 	if err == nil {
