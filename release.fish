@@ -25,6 +25,6 @@ for pair in linux/386 linux/amd64 linux/arm linux/arm64 darwin/amd64 dragonfly/a
 	set GOARCH (echo $pair | cut -d'/' -f2)
 	set BIN    $DISTDIR/oklog-$VERSION-$GOOS-$GOARCH
 	echo $BIN
-	env GOOS=$GOOS GOARCH=$GOARCH go build -o $BIN -ldflags="-X main.version=$VERSION" github.com/oklog/oklog/cmd/oklog
+	env GOOS=$GOOS GOARCH=$GOARCH go build -o $BIN -ldflags="-X main.version=$VERSION" github.com/denji/oklog/cmd/oklog
 end
 

@@ -18,8 +18,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/oklog/oklog/pkg/fs"
-	"github.com/oklog/oklog/pkg/record"
+	"github.com/denji/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/record"
 )
 
 func TestHandleConnectionsCleanup(t *testing.T) {

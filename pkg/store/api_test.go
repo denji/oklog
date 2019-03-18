@@ -14,8 +14,8 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/oklog/oklog/pkg/cluster"
-	"github.com/oklog/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/cluster"
+	"github.com/denji/oklog/pkg/fs"
 	"github.com/oklog/ulid"
 )
 
@@ -109,7 +109,7 @@ func newFixtureAPI(t *testing.T) (*API, error) {
 
 	// Construct a virtual file log.
 	filesys := fs.NewVirtualFilesystem()
-	filelog, err := NewFileLog(filesys, "/", 10240, 1024, logReporter)
+	filelog, err := NewFileLog(filesys, "/", 10240, 1024, "", logReporter)
 	if err != nil {
 		return nil, err
 	}

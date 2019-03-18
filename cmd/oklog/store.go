@@ -16,11 +16,11 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/cors"
 
-	"github.com/oklog/oklog/pkg/cluster"
-	"github.com/oklog/oklog/pkg/fs"
-	"github.com/oklog/oklog/pkg/group"
-	"github.com/oklog/oklog/pkg/store"
-	"github.com/oklog/oklog/pkg/ui"
+	"github.com/denji/oklog/pkg/cluster"
+	"github.com/denji/oklog/pkg/fs"
+	"github.com/denji/oklog/pkg/group"
+	"github.com/denji/oklog/pkg/store"
+	"github.com/denji/oklog/pkg/ui"
 )
 
 const (
@@ -56,6 +56,7 @@ func runStore(args []string) error {
 		segmentPurge             = flagset.Duration("store.segment-purge", defaultStoreSegmentPurge, "purge deleted segment files after this long")
 		uiLocal                  = flagset.Bool("ui.local", false, "ignore embedded files and go straight to the filesystem")
 		filesystem               = flagset.String("filesystem", defaultFilesystem, "real, virtual, nop")
+		compression              = flagset.String("compression", "", "gzip, lz4, zst")
 		clusterPeers             = stringslice{}
 	)
 	flagset.Var(&clusterPeers, "peer", "cluster peer host:port (repeatable)")
@@ -203,10 +204,16 @@ func runStore(args []string) error {
 	default:
 		return errors.Errorf("invalid -filesystem %q", *filesystem)
 	}
+
+	if !store.IsCompressionValid(*compression) {
+		return errors.Errorf("invalid -compression %q", *compression)
+	}
+
 	storeLog, err := store.NewFileLog(
 		fsys,
 		*storePath,
 		*segmentTargetSize, *segmentBufferSize,
+		*compression,
 		store.LogReporter{Logger: log.With(logger, "component", "FileLog")},
 	)
 	if err != nil {

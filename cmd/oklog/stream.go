@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/oklog/oklog/pkg/group"
-	"github.com/oklog/oklog/pkg/store"
+	"github.com/denji/oklog/pkg/group"
+	"github.com/denji/oklog/pkg/store"
 	"github.com/oklog/ulid"
 	"github.com/pkg/errors"
 )

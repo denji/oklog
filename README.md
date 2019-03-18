@@ -1,17 +1,10 @@
 # OK Log is archived
 
-I hoped to find the opportunity to continue developing OK Log after the spike of its creation.
-Unfortunately, despite effort, no such opportunity presented itself.
-Please look at OK Log for inspiration, and consider using the (maintained!) projects that came from it,
-[ulid](https://github.com/oklog/ulid) and [run](https://github.com/oklog/run).
-
----
-
 <p align="center">
 <img src="oklog.png" width=500 height=142 alt="OK Log"/><br/>
-<a href="https://github.com/oklog/oklog/releases/latest"><img src="https://img.shields.io/github/release/oklog/oklog.svg?style=flat-square"/></a>
-<a href="https://travis-ci.org/oklog/oklog"><img src="https://img.shields.io/travis/oklog/oklog.svg?style=flat-square"/></a>
-<a href="https://goreportcard.com/report/github.com/oklog/oklog"><img src="https://goreportcard.com/badge/github.com/oklog/oklog?style=flat-square&x=1"/></a>
+<a href="https://github.com/denji/oklog/releases/latest"><img src="https://img.shields.io/github/release/denji/oklog.svg?style=flat-square"/></a>
+<a href="https://travis-ci.org/denji/oklog"><img src="https://img.shields.io/travis/denji/oklog.svg?style=flat-square"/></a>
+<a href="https://goreportcard.com/report/github.com/denji/oklog"><img src="https://goreportcard.com/badge/github.com/denji/oklog?style=flat-square&x=1"/></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square"/></a>
 </p>
 
@@ -35,7 +28,7 @@ You may consider OK Log if...
 ## Getting OK Log
 
 OK Log is distributed as a single, statically-linked binary for a variety of target architectures.
-Download the latest release from [the releases page](https://github.com/oklog/oklog/releases).
+Download the latest release from [the releases page](https://github.com/denji/oklog/releases).
 
 ## Quickstart
 
@@ -102,7 +95,7 @@ $ ./myservice | oklog forward ingest1 ingest2
 ```
 
 OK Log integrates in a straightforward way with runtimes like Docker and Kubernetes.
-See [the Integrations page](https://github.com/oklog/oklog/wiki/Integrations) for more details.
+See [the Integrations page](https://github.com/denji/oklog/wiki/Integrations) for more details.
 
 ## Querying
 
@@ -149,12 +142,12 @@ So, e.g. http://localhost:7650/ui.
 
 ### Integrations
 
-- [Docker](https://github.com/oklog/oklog/wiki/Integrations#docker)
-- [Kubernetes](https://github.com/oklog/oklog/wiki/Integrations#kubernetes)
+- [Docker](https://github.com/denji/oklog/wiki/Integrations#docker)
+- [Kubernetes](https://github.com/denji/oklog/wiki/Integrations#kubernetes)
 
 ### Unofficial Docker images
 
-- [OK Log](https://hub.docker.com/r/oklog/oklog/)
+- [OK Log](https://hub.docker.com/r/denji/oklog/)
 
 ### Translation
 
