@@ -85,18 +85,19 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// Fuck all y'all's HN-frontpage-spamming zero-alloc muxers \m/(-_-)\m/
 	method, path := r.Method, r.URL.Path
+	isGET := method == "GET"
 	switch {
-	case method == "GET" && path == APIPathNext:
+	case isGET && path == APIPathNext:
 		a.handleNext(w, r)
-	case method == "GET" && path == APIPathRead:
+	case isGET && path == APIPathRead:
 		a.handleRead(w, r)
 	case method == "POST" && path == APIPathCommit:
 		a.handleCommit(w, r)
 	case method == "POST" && path == APIPathFailed:
 		a.handleFailed(w, r)
-	case method == "GET" && path == APIPathSegmentState:
+	case isGET && path == APIPathSegmentState:
 		a.handleSegmentStatus(w, r)
-	case method == "GET" && path == APIPathClusterState:
+	case isGET && path == APIPathClusterState:
 		a.handleClusterState(w, r)
 	default:
 		http.NotFound(w, r)

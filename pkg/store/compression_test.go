@@ -47,6 +47,9 @@ func checkCompressionWrite(t *testing.T, compression, ext string) {
 	defer filelog.Close()
 
 	ws, err := filelog.Create()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	var lo, hi *ulid.ULID
 	r := byteReader{'x'}
@@ -156,9 +159,15 @@ func checkCompressionRead(t *testing.T, compression, ext string) {
 
 	data := []byte(strings.Repeat("some text ", 30) + strings.Repeat("some other text ", 50))
 
-	_, err = f.Write(data)
-	f.Close()
-	cf.Close()
+	if _, err = f.Write(data); err != nil {
+		t.Fatal(err)
+	}
+	if err = f.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if err = cf.Close(); err != nil {
+		t.Fatal(err)
+	}
 
 	r, err := newFileReadSegment(filesys, path)
 	if err != nil {

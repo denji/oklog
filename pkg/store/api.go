@@ -95,21 +95,22 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}(time.Now())
 
 	method, path := r.Method, r.URL.Path
+	isGET, isHEAD := method == mGET, method == mHEAD
 	switch {
-	case method == "GET" && path == "/":
+	case isGET && path == "/":
 		r.URL.Path = APIPathUserQuery
 		http.Redirect(w, r, r.URL.String(), http.StatusTemporaryRedirect)
-	case (method == "GET" || method == "HEAD") && path == APIPathUserQuery:
+	case (isGET || isHEAD) && path == APIPathUserQuery:
 		a.handleUserQuery(w, r)
-	case (method == "GET" || method == "HEAD") && path == APIPathInternalQuery:
+	case (isGET || isHEAD) && path == APIPathInternalQuery:
 		a.handleInternalQuery(w, r)
-	case method == "GET" && path == APIPathUserStream:
+	case isGET && path == APIPathUserStream:
 		a.handleUserStream(w, r)
-	case method == "GET" && path == APIPathInternalStream:
+	case isGET && path == APIPathInternalStream:
 		a.handleInternalStream(w, r)
 	case method == "POST" && path == APIPathReplicate:
 		a.handleReplicate(w, r)
-	case method == "GET" && path == APIPathClusterState:
+	case isGET && path == APIPathClusterState:
 		a.handleClusterState(w, r)
 	default:
 		http.NotFound(w, r)
@@ -151,7 +152,7 @@ func (a *API) handleUserQuery(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var requests []*http.Request
+	requests := make([]*http.Request, 0, len(members))
 	for _, hostport := range members {
 		// Copy original URL, to save all the query params, etc.
 		u, err := url.Parse(r.URL.String())
@@ -195,7 +196,7 @@ func (a *API) handleUserQuery(w http.ResponseWriter, r *http.Request) {
 	qr := QueryResult{Params: qp}
 
 	// We'll merge all records in a single pass.
-	var rcs []io.ReadCloser
+	rcs := make([]io.ReadCloser, 0, cap(c))
 	defer func() {
 		// Don't leak if we need to make an early return.
 		for i, rc := range rcs {
@@ -293,6 +294,9 @@ func (a *API) handleUserQuery(w http.ResponseWriter, r *http.Request) {
 	qr.EncodeTo(w)
 }
 
+const mHEAD = "HEAD"
+const mGET = "GET"
+
 func (a *API) handleInternalQuery(w http.ResponseWriter, r *http.Request) {
 	var qp QueryParams
 	if err := qp.DecodeFrom(r.URL, rangeRequired); err != nil {
@@ -301,7 +305,7 @@ func (a *API) handleInternalQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	statsOnly := false
-	if r.Method == "HEAD" {
+	if r.Method == mHEAD {
 		statsOnly = true
 	}
 

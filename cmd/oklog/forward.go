@@ -97,7 +97,7 @@ func runForward(args []string) error {
 	}
 
 	// Parse URLs for forwarders.
-	var urls []*url.URL
+	urls := make([]*url.URL, 0, len(args))
 	for _, addr := range args {
 		schema, host, _, _, err := parseAddr(addr, defaultFastPort)
 		if err != nil {

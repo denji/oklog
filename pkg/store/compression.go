@@ -36,7 +36,7 @@ var compressionExtensionsList []string = []string{
 }
 
 func IsCompressionValid(compression string) bool {
-	for k, _ := range compressionToExt {
+	for k := range compressionToExt {
 		if k == compression {
 			return true
 		}
@@ -97,9 +97,9 @@ type compressor struct {
 }
 
 var compressors map[string]*compressor = map[string]*compressor{
-	compressionNone: &compressor{newCopyReader, newCopyWriter},
-	compressionGzip: &compressor{newGzipReader, newGzipWriter},
-	compressionZstd: &compressor{newZstdReader, newZstdWriter},
+	compressionNone: {newCopyReader, newCopyWriter},
+	compressionGzip: {newGzipReader, newGzipWriter},
+	compressionZstd: {newZstdReader, newZstdWriter},
 }
 
 func getCompressor(compression string) *compressor {

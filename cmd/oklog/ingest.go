@@ -35,6 +35,10 @@ const (
 const (
 	topicModeStatic  = "static"
 	topicModeDynamic = "dynamic"
+
+	fsReal    = "real"
+	fsVirtual = "virtual"
+	fsNop     = "nop"
 )
 
 var (
@@ -244,11 +248,11 @@ func runIngest(args []string) error {
 	// Create ingest log.
 	var fsys fs.Filesystem
 	switch strings.ToLower(*filesystem) {
-	case "real":
+	case fsReal:
 		fsys = fs.NewRealFilesystem()
-	case "virtual":
+	case fsVirtual:
 		fsys = fs.NewVirtualFilesystem()
-	case "nop":
+	case fsNop:
 		fsys = fs.NewNopFilesystem()
 	default:
 		return errors.Errorf("invalid -filesystem %q", *filesystem)
