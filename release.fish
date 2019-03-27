@@ -26,6 +26,6 @@ for pair in linux/386 linux/amd64 linux/arm linux/arm64 darwin/amd64 dragonfly/a
 	set GO111MODULE on
 	set BIN    $DISTDIR/oklog-$VERSION-$GOOS-$GOARCH
 	echo $BIN
-	env GOOS=$GOOS GOARCH=$GOARCH go build -o $BIN -ldflags="-X main.version=$VERSION -extldflags '-static'" -tags netgo github.com/denji/oklog/cmd/oklog
+	env GOOS=$GOOS GOARCH=$GOARCH go build -o $BIN -ldflags="-X main.version=$VERSION -extldflags '-static' -s -w" -tags netgo github.com/denji/oklog/cmd/oklog
 end
 
