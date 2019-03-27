@@ -23,8 +23,9 @@ mkdir -p $DISTDIR
 for pair in linux/386 linux/amd64 linux/arm linux/arm64 darwin/amd64 dragonfly/amd64 freebsd/amd64 netbsd/amd64 openbsd/amd64
 	set GOOS   (echo $pair | cut -d'/' -f1)
 	set GOARCH (echo $pair | cut -d'/' -f2)
+	set GO111MODULE on
 	set BIN    $DISTDIR/oklog-$VERSION-$GOOS-$GOARCH
 	echo $BIN
-	env GOOS=$GOOS GOARCH=$GOARCH go build -o $BIN -ldflags="-X main.version=$VERSION" github.com/denji/oklog/cmd/oklog
+	env GOOS=$GOOS GOARCH=$GOARCH go build -o $BIN -ldflags="-X main.version=$VERSION -extldflags '-static'" -tags netgo github.com/denji/oklog/cmd/oklog
 end
 
