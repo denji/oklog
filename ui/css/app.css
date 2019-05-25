@@ -1,0 +1,29 @@
+.navbar, .navbar-menu, .navbar-start, .navbar-end {
+    display: flex;
+    align-items: stretch;
+}
+
+.navbar-start {
+    justify-content: flex-start;
+    margin-right: auto;
+}
+
+.navbar-end {
+    justify-content: flex-end;
+}
+
+.navbar-item, .navbar-link {
+    display: flex;
+    align-items: center;
+}
+
+.fields label {
+    padding-top: .375em;
+}
+
+.to-top {
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
