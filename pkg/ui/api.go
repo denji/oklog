@@ -22,6 +22,12 @@ func NewAPI(logger log.Logger, local bool) *API {
 
 func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(_escFS(a.local)))
+
+	if a.local {
+		mux.Handle("/", http.FileServer(http.Dir("./ui/")))
+	} else {
+		mux.Handle("/", http.FileServer(_escFS(false)))
+	}
+
 	mux.ServeHTTP(w, r)
 }

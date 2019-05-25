@@ -15,6 +15,7 @@ var app = new Vue({
 
     stream: null,
     streamLeft: "",
+    autoScroll: true,
   },
   methods: {
     setStream: function () {
@@ -68,7 +69,7 @@ var app = new Vue({
               try {
                 var time = self.decodeUlid(s[0])
               } catch (e) {
-                return  {time: 'now', text: v}
+                return {time: "now", text: v}
               }
 
               return {time: time, text: text}
@@ -84,8 +85,6 @@ var app = new Vue({
       }
 
       fetch(endpoint).then(function (r) {
-        console.log(r)
-
         self.stream = r.body.getReader()
         read()
       }).catch(function (e) {
@@ -115,7 +114,7 @@ var app = new Vue({
         case "now":
           return moment().toISOString()
         default:
-          return moment(this.to).toISOString()
+          return moment("-" + this.to).toISOString()
       }
     },
     pushHistory: function () {
@@ -159,6 +158,9 @@ var app = new Vue({
       }
       return time
     },
+    toTop: function () {
+      window.scrollTo(0, 0)
+    }
   },
   computed: {
     baseEndpoint: function () {
@@ -193,6 +195,22 @@ var app = new Vue({
     regex: function () {
       this.pushHistory()
     },
+    lines: function () {
+      if (this.autoScroll) {
+        this.$nextTick(function () {
+          var maxH = document.body.scrollHeight
+          window.scrollTo(0, maxH)
+          this.autoScroll = true
+        })
+      }
+    },
+  },
+  mounted: function () {
+    var self = this
+    window.addEventListener("scroll", function (ev) {
+      var maxH = document.body.scrollHeight
+      self.autoScroll = window.innerHeight > maxH || (window.scrollY + window.innerHeight) >= maxH
+    })
   },
 })
 

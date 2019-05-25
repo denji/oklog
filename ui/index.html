@@ -24,16 +24,11 @@
                         <img src="img/oklog.png">
                     </a>
                 </div>
-                <a class="navbar-item" @click="setStream">
-                    Stream
-                </a>
-                <a class="navbar-item" @click="setQuery">
+                <a class="navbar-item" :class="{'is-active': action == 'query' }" @click="setQuery">
                     Query
                 </a>
-            </div>
-            <div class="navbar-end">
-                <a class="navbar-item">
-                    Settings
+                <a class="navbar-item" :class="{'is-active': action == 'stream' }" @click="setStream">
+                    Stream
                 </a>
             </div>
         </nav>
@@ -42,7 +37,7 @@
             <div class="column">
                 <div class="field has-addons">
                     <div class="control is-expanded" :class="{'is-loading': isLoading}">
-                        <input class="input" type="text" placeholder="Query" v-model="q">
+                        <input class="input" type="text" placeholder="Query" @keyup.enter="doRequest" v-model="q">
                     </div>
                     <div class="control">
                         <a class="button is-info" @click="doRequest">
@@ -105,14 +100,18 @@
         </div>
     </header>
     <main>
-        <table v-if="lines.length > 0" class="table is-striped">
+        <table id="lines" v-if="lines.length > 0" class="table is-striped is-fullwidth">
             <tbody>
             <tr v-for="l in lines">
-                <td><strong>{{ moment(l.time).format() }}:</strong> <pre>{{ l.text }}</pre></td>
+                <td>
+                    <strong>{{ moment(l.time).format() }}:</strong>
+                    <pre>{{ l.text }}</pre>
+                </td>
             </tr>
             </tbody>
         </table>
     </main>
+    <div class="to-top button has-background-info has-text-white" @click="toTop">To Top ^</div>
 </div>
 <script src="js/app.js"></script>
 </body>

@@ -20,3 +20,10 @@
 .fields label {
     padding-top: .375em;
 }
+
+.to-top {
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
