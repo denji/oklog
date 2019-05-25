@@ -43,6 +43,12 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		tplRoot = template.Must(template.New("root").Parse(tmplIndex))
 	)
 
+	if a.local {
+		mux.Handle("/", http.FileServer(http.Dir("./ui/")))
+		mux.ServeHTTP(w, r)
+		return
+	}
+
 	mux.Handle("/scripts/", http.FileServer(_escFS(a.local)))
 	mux.Handle("/styles/", http.FileServer(_escFS(a.local)))
 
