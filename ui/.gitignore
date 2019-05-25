@@ -1,7 +1,0 @@
-# Dependency management
-elm-stuff
-node_modules
-package-lock.json
-
-# Compiled artifacts
-oklog.js
