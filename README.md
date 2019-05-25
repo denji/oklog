@@ -1,5 +1,3 @@
-# OK Log is archived
-
 <p align="center">
 <img src="oklog.png" width=500 height=142 alt="OK Log"/><br/>
 <a href="https://github.com/denji/oklog/releases/latest"><img src="https://img.shields.io/github/release/denji/oklog.svg?style=flat-square"/></a>
