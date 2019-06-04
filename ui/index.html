@@ -40,8 +40,11 @@
                         <input class="input" type="text" placeholder="Query" @keyup.enter="doRequest" v-model="q">
                     </div>
                     <div class="control">
-                        <a class="button is-info" @click="doRequest">
+                        <a class="button is-info" @click="doRequest" v-if="!isLoading">
                             Search
+                        </a>
+                        <a class="button is-info" @click="abortRequest" v-else>
+                            Abort
                         </a>
                         <label class="checkbox">
                             <input type="checkbox" v-model="regex">
@@ -57,15 +60,15 @@
                     <div class="control">
                         <div class="select">
                             <select name="from" v-model="from">
-                                <option value="5 minutes">5 min</option>
-                                <option value="15 minutes">15 min</option>
-                                <option value="30 minutes">30 min</option>
-                                <option value="1 hour">1 hrs</option>
-                                <option value="6 hours">6 hrs</option>
-                                <option value="12 hours">12 hrs</option>
-                                <option value="1 day">1 days</option>
-                                <option value="3 days">3 days</option>
-                                <option value="7 days">7 days</option>
+                                <option value="-5 minutes">5 min</option>
+                                <option value="-15 minutes">15 min</option>
+                                <option value="-30 minutes">30 min</option>
+                                <option value="-1 hour">1 hrs</option>
+                                <option value="-6 hours">6 hrs</option>
+                                <option value="-12 hours">12 hrs</option>
+                                <option value="-1 day">1 days</option>
+                                <option value="-3 days">3 days</option>
+                                <option value="-7 days">7 days</option>
                                 <option value="at">at</option>
                             </select>
                         </div>
@@ -79,15 +82,15 @@
                         <div class="select">
                             <select name="to" v-model="to">
                                 <option value="now">now</option>
-                                <option value="5 minutes">5 min</option>
-                                <option value="15 minutes">15 min</option>
-                                <option value="30 minutes">30 min</option>
-                                <option value="1 hour">1 hrs</option>
-                                <option value="6 hours">6 hrs</option>
-                                <option value="12 hours">12 hrs</option>
-                                <option value="1 day">1 days</option>
-                                <option value="3 days">3 days</option>
-                                <option value="7 days">7 days</option>
+                                <option value="-5 minutes">5 min</option>
+                                <option value="-15 minutes">15 min</option>
+                                <option value="-30 minutes">30 min</option>
+                                <option value="-1 hour">1 hrs</option>
+                                <option value="-6 hours">6 hrs</option>
+                                <option value="-12 hours">12 hrs</option>
+                                <option value="-1 day">1 days</option>
+                                <option value="-3 days">3 days</option>
+                                <option value="-7 days">7 days</option>
                                 <option value="at">at</option>
                             </select>
                         </div>
@@ -104,7 +107,9 @@
             <tbody>
             <tr v-for="l in lines">
                 <td>
-                    <strong>{{ moment(l.time).format() }}:</strong>
+                    <strong class="log-time" @click="l.showUlid = !l.showUlid">
+                        {{ l.showUlid ? l.ulid : moment(l.time).format()  }}:
+                    </strong>
                     <pre>{{ l.text }}</pre>
                 </td>
             </tr>

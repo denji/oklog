@@ -1,4 +1,3 @@
-var request = null
 var app = new Vue({
   el: "#app",
   data: {
@@ -13,6 +12,7 @@ var app = new Vue({
     isLoading: false,
     lines: [],
 
+    fetchController: null,
     stream: null,
     streamLeft: "",
     autoScroll: true,
@@ -25,6 +25,16 @@ var app = new Vue({
     setQuery: function () {
       this.action = "query"
       this.pushHistory()
+    },
+    abortRequest: function () {
+      if (this.stream) {
+        this.stream.cancel()
+      }
+      if (this.fetchController) {
+        this.fetchController.abort()
+        this.fetchController = null
+      }
+      this.isLoading = false
     },
     doRequest: function () {
       this.lines = []
@@ -42,10 +52,6 @@ var app = new Vue({
           throw new Error("Unknown action")
       }
 
-      if (this.stream) {
-        this.stream.cancel()
-      }
-
       var self = this
 
       this.isLoading = true
@@ -61,18 +67,19 @@ var app = new Vue({
             self.lines.push.apply(self.lines, lines.map(function (v) {
 
               var s = v.split(" ", 1)
+              var ulid = s[0]
               var text = v
-              .replace(s[0] + " ", "")
+              .replace(ulid + " ", "")
               .split("\\n")
               .join("\n")
 
               try {
-                var time = self.decodeUlid(s[0])
+                var time = self.decodeUlid(ulid)
               } catch (e) {
                 return {time: "now", text: v}
               }
 
-              return {time: time, text: text}
+              return {ulid: ulid, time: time, text: text, showUlid: false}
             }))
             read()
             return
@@ -84,7 +91,8 @@ var app = new Vue({
         })
       }
 
-      fetch(endpoint).then(function (r) {
+      this.fetchController = new AbortController()
+      fetch(endpoint, {signal: this.fetchController.signal}).then(function (r) {
         self.stream = r.body.getReader()
         read()
       }).catch(function (e) {
@@ -94,6 +102,9 @@ var app = new Vue({
     },
     fullQuery: function () {
       var query = "q=" + this.q
+      if (!!this.regex) {
+        query += "&regex=" + this.regex
+      }
       if (this.action === "query") {
         query += "&from=" + this.fromPrepare() + "&to=" + this.toPrepare()
       }
@@ -102,19 +113,19 @@ var app = new Vue({
     fromPrepare: function () {
       switch (this.from) {
         case "at":
-          return moment(this.fromAt).toISOString()
+          return moment(this.fromAt).toISOString() ? moment(this.fromAt).toISOString() : this.fromAt
         default:
-          return moment("-" + this.from).toISOString()
+          return moment(this.from).toISOString()
       }
     },
     toPrepare: function () {
       switch (this.to) {
         case "at":
-          return moment(this.toAt).toISOString()
+          return moment(this.toAt).toISOString() ? moment(this.toAt).toISOString() : this.toAt
         case "now":
           return moment().toISOString()
         default:
-          return moment("-" + this.to).toISOString()
+          return moment(this.to).toISOString()
       }
     },
     pushHistory: function () {
@@ -124,7 +135,7 @@ var app = new Vue({
       }
 
       var query = "action=" + this.action + "&q=" + this.q
-      if (this.regex === true) {
+      if (!!this.regex) {
         query += "&regex=" + this.regex
       }
       query += "&from=" + this.from + "&to=" + this.to
@@ -160,7 +171,7 @@ var app = new Vue({
     },
     toTop: function () {
       window.scrollTo(0, 0)
-    }
+    },
   },
   computed: {
     baseEndpoint: function () {
