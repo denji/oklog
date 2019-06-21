@@ -135,6 +135,11 @@ func runStore(args []string) error {
 		Name:      "store_purged_segments",
 		Help:      "Segments purged from trash.",
 	}, []string{"success"})
+	compactBytesWritten := prometheus.NewCounter(prometheus.CounterOpts{
+		Namespace: "oklog",
+		Name:      "store_compact_bytes_written",
+		Help:      "Number of bytes written during compaction.",
+	})
 	prometheus.MustRegister(
 		apiDuration,
 		compactDuration,
@@ -144,6 +149,7 @@ func runStore(args []string) error {
 		replicatedBytes,
 		trashedSegments,
 		purgedSegments,
+		compactBytesWritten,
 	)
 
 	// Parse URLs for listeners.
@@ -298,6 +304,7 @@ func runStore(args []string) error {
 			*segmentRetain,
 			*segmentPurge,
 			compactDuration,
+			compactBytesWritten,
 			trashedSegments,
 			purgedSegments,
 			store.LogReporter{Logger: log.With(logger, "component", "Compacter")},
